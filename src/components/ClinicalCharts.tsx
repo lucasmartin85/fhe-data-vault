@@ -3,6 +3,18 @@ import { Badge } from "@/components/ui/badge";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell } from 'recharts';
 import { Activity, TrendingUp, Users, FileText } from "lucide-react";
 
+interface ClinicalChartsProps {
+  data?: {
+    totalParticipants: number;
+    activeTrials: number;
+    efficacyRate: number;
+    dataPoints: string;
+    efficacyData: Array<{week: string; placebo: number; treatment: number; encrypted: boolean}>;
+    adverseEventsData: Array<{severity: string; count: number}>;
+    demographicsData: Array<{group: string; value: number; fill: string}>;
+  };
+}
+
 const efficacyData = [
   { week: 'Week 1', placebo: 20, treatment: 15, encrypted: true },
   { week: 'Week 2', placebo: 25, treatment: 12, encrypted: true },
@@ -25,7 +37,17 @@ const demographicsData = [
   { group: '60+', value: 12, fill: 'hsl(var(--muted-foreground))' },
 ];
 
-export const ClinicalCharts = () => {
+export const ClinicalCharts = ({ data }: ClinicalChartsProps) => {
+  // Use provided data or fallback to default mock data
+  const currentData = data || {
+    totalParticipants: 1247,
+    activeTrials: 23,
+    efficacyRate: 78.4,
+    dataPoints: "847K",
+    efficacyData,
+    adverseEventsData,
+    demographicsData
+  };
   return (
     <div className="space-y-6">
       {/* Key Metrics */}
@@ -36,7 +58,7 @@ export const ClinicalCharts = () => {
             <Users className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-primary">1,247</div>
+            <div className="text-2xl font-bold text-primary">{currentData.totalParticipants.toLocaleString()}</div>
             <div className="flex items-center space-x-1">
               <Badge variant="secondary" className="text-xs">Encrypted</Badge>
             </div>
@@ -49,7 +71,7 @@ export const ClinicalCharts = () => {
             <Activity className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-primary">23</div>
+            <div className="text-2xl font-bold text-primary">{currentData.activeTrials}</div>
             <div className="flex items-center space-x-1">
               <Badge variant="outline" className="text-xs">Phase II/III</Badge>
             </div>
@@ -62,7 +84,7 @@ export const ClinicalCharts = () => {
             <TrendingUp className="h-4 w-4 text-accent" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-accent">78.4%</div>
+            <div className="text-2xl font-bold text-accent">{currentData.efficacyRate}%</div>
             <div className="flex items-center space-x-1">
               <Badge className="text-xs bg-accent/10 text-accent">+12.3%</Badge>
             </div>
@@ -75,7 +97,7 @@ export const ClinicalCharts = () => {
             <FileText className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-primary">847K</div>
+            <div className="text-2xl font-bold text-primary">{currentData.dataPoints}</div>
             <div className="flex items-center space-x-1">
               <Badge variant="secondary" className="text-xs">FHE Protected</Badge>
             </div>
@@ -97,7 +119,7 @@ export const ClinicalCharts = () => {
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
-              <LineChart data={efficacyData}>
+              <LineChart data={currentData.efficacyData}>
                 <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
                 <XAxis dataKey="week" stroke="hsl(var(--muted-foreground))" />
                 <YAxis stroke="hsl(var(--muted-foreground))" />
@@ -139,14 +161,14 @@ export const ClinicalCharts = () => {
             <ResponsiveContainer width="100%" height={300}>
               <PieChart>
                 <Pie
-                  data={demographicsData}
+                  data={currentData.demographicsData}
                   cx="50%"
                   cy="50%"
                   outerRadius={100}
                   dataKey="value"
                   label={({ group, value }) => `${group}: ${value}%`}
                 >
-                  {demographicsData.map((entry, index) => (
+                  {currentData.demographicsData.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={entry.fill} />
                   ))}
                 </Pie>
@@ -165,7 +187,7 @@ export const ClinicalCharts = () => {
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={adverseEventsData}>
+              <BarChart data={currentData.adverseEventsData}>
                 <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
                 <XAxis dataKey="severity" stroke="hsl(var(--muted-foreground))" />
                 <YAxis stroke="hsl(var(--muted-foreground))" />

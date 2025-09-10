@@ -1,13 +1,15 @@
-import { Shield, Lock, Zap } from "lucide-react";
+import { Shield, Lock, Zap, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface ClinicalHeaderProps {
   onConnectWallet: () => void;
   isWalletConnected: boolean;
   walletAddress?: string;
+  onSyncData: () => void;
+  isSyncing: boolean;
 }
 
-export const ClinicalHeader = ({ onConnectWallet, isWalletConnected, walletAddress }: ClinicalHeaderProps) => {
+export const ClinicalHeader = ({ onConnectWallet, isWalletConnected, walletAddress, onSyncData, isSyncing }: ClinicalHeaderProps) => {
   return (
     <header className="bg-gradient-lab border-b border-border shadow-clinical">
       <div className="container mx-auto px-6 py-4">
@@ -33,6 +35,16 @@ export const ClinicalHeader = ({ onConnectWallet, isWalletConnected, walletAddre
               <Shield className="h-4 w-4 text-accent" />
               <span>Encrypted Data Analysis</span>
             </div>
+            
+            <Button
+              onClick={onSyncData}
+              variant="outline"
+              disabled={isSyncing}
+              className="flex items-center space-x-2"
+            >
+              <RefreshCw className={`h-4 w-4 ${isSyncing ? 'animate-spin' : ''}`} />
+              <span>{isSyncing ? "Syncing..." : "Sync Data"}</span>
+            </Button>
             
             <Button
               onClick={onConnectWallet}
