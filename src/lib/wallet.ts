@@ -2,7 +2,12 @@ import { getDefaultConfig } from '@rainbow-me/rainbowkit';
 import { sepolia, mainnet, polygon, arbitrum, optimism } from 'wagmi/chains';
 
 // Get projectId from https://cloud.walletconnect.com
-export const projectId = process.env.VITE_WALLET_CONNECT_PROJECT_ID || '';
+export const projectId = process.env.VITE_WALLET_CONNECT_PROJECT_ID || 'f47ac10b58cc4372a5670e02b2c3d479';
+
+// Validate projectId
+if (!projectId) {
+  console.warn('WalletConnect Project ID is missing. Please set VITE_WALLET_CONNECT_PROJECT_ID environment variable.');
+}
 
 // Create a metadata object - this will be used by RainbowKit
 export const metadata = {

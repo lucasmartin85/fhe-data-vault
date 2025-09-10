@@ -42,17 +42,36 @@ git clone https://github.com/lucasmartin85/fhe-data-vault.git
 cd fhe-data-vault
 ```
 
-2. Install dependencies:
+2. Set up environment variables:
+```bash
+# Run the setup script (recommended)
+./setup-env.sh
+
+# Or manually create .env.local file with the following content:
+# VITE_WALLET_CONNECT_PROJECT_ID=f47ac10b58cc4372a5670e02b2c3d479
+```
+
+3. Install dependencies:
 ```bash
 npm install
 ```
 
-3. Start the development server:
+4. Start the development server:
 ```bash
 npm run dev
 ```
 
-4. Open your browser and navigate to `http://localhost:5173`
+5. Open your browser and navigate to `http://localhost:5173`
+
+### WalletConnect Setup
+
+To enable wallet connection functionality, you need a WalletConnect Project ID:
+
+1. Visit [WalletConnect Cloud](https://cloud.walletconnect.com)
+2. Create a new project
+3. Copy your Project ID
+4. Update the `VITE_WALLET_CONNECT_PROJECT_ID` in your `.env.local` file
+5. Restart your development server
 
 ## Development
 

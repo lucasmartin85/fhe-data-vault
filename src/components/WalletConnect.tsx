@@ -5,10 +5,17 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { LogOut, User, Shield, Database } from 'lucide-react';
+import { projectId } from '@/lib/wallet';
+import WalletConnectFallback from './WalletConnectFallback';
 
 export const WalletConnect: React.FC = () => {
   const { address, isConnected } = useAccount();
   const { disconnect } = useDisconnect();
+
+  // Show fallback if projectId is not properly configured
+  if (!projectId || projectId === '') {
+    return <WalletConnectFallback />;
+  }
 
   if (!isConnected) {
     return (
